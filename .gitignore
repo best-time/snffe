@@ -1,0 +1,12 @@
+/.idea/
+/components/
+/mulProgram/
+/program/node_modules
+*.xml
+*.zip
+*.rar
+*.via
+*.tmp
+*.err
+**/node_modules/
+**/**/node_modules/
