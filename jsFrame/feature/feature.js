@@ -1,6 +1,11 @@
+/**
+ * 浏览器特性检测
+ * author: ywy
+ */
+
 ;(function (win, doc, undefined) {
     "use strict"
-    
+
     var docEl = doc.documentElement,
         utils = {
             create: function (el) {

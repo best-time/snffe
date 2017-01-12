@@ -1,9 +1,7 @@
-/*
-sass --watch scss/modules:css
-*/
+
 
 @import '../normal.scss';
-@import '../core/css3.scss';
+@import '../core/border.scss';
 
 .demo {
   margin: 10px 20px;
