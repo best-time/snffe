@@ -1,0 +1,28 @@
+@charset 'utf-8';
+
+@import '../base.scss';
+
+body {
+    margin: 0 auto;
+    min-width: 320px;
+    max-width: 750px;
+    background: #eee;
+}
+._popup_ {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    width: 100%;
+    background: $white;
+
+    @include transition(all .6s);
+    &.slide-out {
+        @include translate(0, 100%);
+    }
+    &.slide-in {
+        @include translate(0, 0);
+    }
+}
+

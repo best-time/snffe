@@ -72,9 +72,15 @@ $prefixNo:                    true !default;
     transform: $content;
 }
 // translate
-@mixin translate($x:0px, $y:0px, $z:0px) {
-    -webkit-transform: translate($x,$y,$z);
-    transform: translate($x,$y,$z);
+@mixin translate3d($x: 0, $y: 0, $z: 0) {
+    -webkit-transform: translate3d($x,$y, $z);
+    transform: translate3d($x,$y, $z);
+}
+@mixin translate($x: 0, $y: 0, $z: 0) {
+    // -webkit-transform: translate($x,$y,$z);
+    // transform: translate($x,$y,$z);
+    -webkit-transform: translate($x,$y) translateZ($z);
+    transform: translate($x,$y) translateZ($z);
 }
 @mixin translateX($num:0px) {
     -webkit-transform: translateX($num);
