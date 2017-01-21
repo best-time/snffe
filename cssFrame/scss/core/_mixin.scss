@@ -1,6 +1,5 @@
 @charset 'utf-8';
 
-
 // 各个浏览器的属性前缀，true表示开启，false表示不开启
 //-----------------------------------------------------
 $prefixForWebkit:             true !default;
@@ -231,9 +230,14 @@ $prefixNo:                    true !default;
   @include center-block(false);
 }
 
-@mixin line-height($height: 40px, $line-height: 40px) {
+@mixin line-height($height: 40px, $line-height: false) {
     height: $height;
-    line-height: $line-height;
+    @if $line-height {
+        line-height: $line-height;
+    } @else {
+        line-height: $height;
+    }
+    
 }
 
 
@@ -281,4 +285,19 @@ $prefixNo:                    true !default;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+@mixin position($top: 1px, $right: 0px, $bottom: 0px, $left: 0px) {
+    @if $top {
+        top: $top;
+    }
+    @if $right {
+        right: $right;
+    }
+    @if $bottom {
+        bottom: $bottom;
+    }
+    @if $left {
+        left: $left;
+    }
 }

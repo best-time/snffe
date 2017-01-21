@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>button</title>
+    <link rel="stylesheet" href="../../cssFrame/css/slide.css">
+</head>
+<body>
+    <header class="head fixed-head">
+        <span class="left-nav pull-left">返回</span>
+        <span class="right-nav pull-right">导航</span>
+        <h1 class="head-title">popup</h1>
+    </header>
+
+   
+
+<br>
+<br>
+<br>
+<p><button id="_popup_">popup1</button></p>
+<p><button id="_popup2_">popup2</button></p>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <div>
+        <label class="label-switch">
+            <input type="checkbox">
+            <div class="checkbox"></div>
+        </label>
+    </div>
+    <h2>label + input[checkbox]</h2>
+    <div>
+        <label class="llbel" style="display: inline-block; width: 40px; height: 20px; background: #ccc;">
+            <input type="checkbox">
+            <p>123123123</p>
+        </label>
+    </div>
+    <br>
+    <h2>searchbar</h2>
+    <div class="searchbar">
+        <a class="searchbar-cancel">取消</a>
+        <div class="search-input">
+        <input type="search" id="search" placeholder="输入关键字...">
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+<p style="margin-top: 500px;">111111111111</p>
+
+<pre>
+
+</pre>
+    <script src="zepto.temple.compo.js"></script>
+    <script src="fastClick.js"></script>
+    <script src="../../jsFrame/base.js"></script>
+    <script src="../../jsFrame/mobile/slide.js"></script>
+    <!--<script src="../../jsFrame/eruda.min.js"></script>-->
+    <script>
+        // eruda.init()
+    </script>
+    <script>
+        if ('addEventListener' in document) {
+            document.addEventListener('DOMContentLoaded', function(){
+                FastClick.attach(document.body);
+            }, false);
+        }
+        $('#_popup_').on('click', function() {
+            $.modal({
+                name: 'pop1',
+                position: 'bottom',
+                htmlTemp: '<div style="height: 300px; background: #0894ec"><b class="close-popup">关闭</b>11122</div>',
+                slideInCb: function(el, i) {
+                    console.log('pop1-slide-in  callback---')
+                },
+                slideOutCb: function() {
+                    console.log('pop1-slide-out  callback---')
+                }
+            })
+        })
+
+        $('#_popup2_').on('click', function() {
+            $.modal({
+                name: 'pop2',
+                position: 'bottom',
+                htmlTemp: '<p>22222</p><p>22222</p><p>22222</p>'
+            })
+        })
+        
+        //  $.modal({
+        //     htmlTemp: '33344'
+        // })
+        // var flag = true
+        // $('#slide-top').on('click', function() {
+        //     // $.modal({
+                
+        //     // })
+        //     if(flag) {
+        //         flag = false
+        //     if($('#aa').hasClass('slide-out')){
+        //         $('#aa').show().removeClass("slide-out").addClass("slide-in").on('webkitTransitionEnd', function() {
+                        
+        //                 $(this).show()
+        //                 flag = true
+        //             })
+        //     }
+        //         else {
+        //             $('#aa').removeClass("slide-in").addClass("slide-out").on('webkitTransitionEnd', function() {
+                        
+        //                 $(this).hide()
+        //                 flag = true
+        //             })
+                
+        //         }
+        //     }
+                
+        // })
+     
+             if(document.addEventListener){    
+                document.addEventListener('DOMMouseScroll',scrollFunc,false);    
+            }//W3C    
+            window.onmousewheel=document.onmousewheel=scrollFunc;//IE/Opera/Chrome 
+
+            function scrollFunc() {
+                return false
+            } 
+
+
+            $(function() {
+                $(document).on("focus", ".searchbar input", function(e) {
+                    var $input = $(e.target);
+                    $input.parents(".searchbar").addClass("searchbar-active");
+                });
+                $(document).on("click", ".searchbar-cancel", function(e) {
+                    var $btn = $(e.target);
+                    $btn.parents(".searchbar").removeClass("searchbar-active");
+                });
+                $(document).on("blur", ".searchbar input", function(e) {
+                    var $input = $(e.target);
+                    $input.parents(".searchbar").removeClass("searchbar-active");
+                });
+            });
+    </script>
+</body>
+</html>
