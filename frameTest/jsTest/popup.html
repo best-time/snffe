@@ -56,6 +56,7 @@
     <br>
     <br>
     <br>
+    <div class="preloader"></div>
     <br>
     <br>
     <br>
@@ -162,6 +163,11 @@
                     $input.parents(".searchbar").removeClass("searchbar-active");
                 });
             });
+
+            var _modalTemplateTempDiv = document.createElement('div');
+            _modalTemplateTempDiv.innerHTML = '<b>innerhtml</b>'
+            var modal = $(_modalTemplateTempDiv).children()
+            console.log(modal)
     </script>
 </body>
 </html>
