@@ -8,6 +8,7 @@
 *.via
 *.tmp
 *.err
+/node_modules/
 **/node_modules/
 **/**/node_modules/
 **/**/**/node_modules/
@@ -15,3 +16,5 @@
 **/.sass-cache/
 **/**/.sass-cache/
 **/**/**/.sass-cache/
+/.DS_Store
+.DS_Store
