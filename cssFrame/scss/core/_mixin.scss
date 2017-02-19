@@ -155,16 +155,6 @@ $prefixNo:                    true !default;
     }
 }
 
-@mixin flex($num:1.0) {
-    flex: $num;
-    -webkit-flex:$num;
-    -webkit-box-flex: $num;
-}
-@mixin flexbox() {
-    display: flex;
-    display: -webkit-box;
-}
-
 
 // screen
 

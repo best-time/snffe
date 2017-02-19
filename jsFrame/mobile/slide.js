@@ -65,7 +65,7 @@
     var _slide = createObject(),
         count = 0
     
-        _slide.tempArr = []
+        _slide.tempArr = ['']
     var slideBottomCss = '<style>._popup_{position:absolute}._popup-bottom_{bottom:0;left:0;right:0;width:100%;z-index:10010;background:#fff;-webkit-transition:all 0.4s;transition:all 0.4s}._popup-bottom_.slide-out{-webkit-transform:translate3d(0, 100%, 0);transform:translate3d(0, 100%, 0)}._popup-bottom_.slide-in{-webkit-transform:translate3d(0, 0, 0);transform:translate3d(0, 0, 0)}._popup-left_{bottom:0;left:0;height:100%;z-index:10010;background:#fff;-webkit-transition:all 0.4s;transition:all 0.4s}._popup-left_.slide-out{-webkit-transform:translate3d(-100%, 0, 0);transform:translate3d(-100%, 0, 0)}._popup-left_.slide-in{-webkit-transform:translate3d(0, 0, 0);transform:translate3d(0, 0, 0)}.popup-overlay{position:absolute;top:0;left:0;right:0;bottom:0;z-index:10000;opacity:0;visibility:hidden;background:rgba(0,0,0,0.4);-webkit-transition:all 0.4s;transition:all 0.4s}.popup-overlay.modal-overlay-visible{opacity:1;visibility:visible}</style>'
     
     _slide.modal = function (params) {
@@ -86,15 +86,17 @@
             _slide.tempArr[_slide.tempArr.length] = params.name
             var htmlTemp = '<div class="_popup_ '+ positionClass +' slide-out" id="_popup-' + params.name + '_">' + params.htmlTemp + '</div>'
             $(db).append((hasCss ? '' : slideBottomCss) + htmlTemp)
+            // $(db).append( htmlTemp)
             $('.popup-overlay').length < 1 && $(db).append(maskString)
         }
         var $popup = $('#_popup-' + params.name + '_'),
             isOut = $popup.hasClass('slide-out')
-        if (isOut) {
+        if (isOut) {console.log(2)
             $popup.css({
                 bottom: -document.body.scrollTop + 'px'
             }).show()
-                .removeClass("slide-out")
+            setTimeout(function () {
+                $popup.removeClass("slide-out")
                 .addClass("slide-in")
                 .transitionEnd(function () {
                     if ($(this).hasClass('slide-in')) {
@@ -105,11 +107,12 @@
                          slideInCb && slideInCb()
                     }
                        
-            })
+                    })
+             }, 0)    
             $('.popup-overlay').addClass('modal-overlay-visible')
         }
 
-        $(doc).off().on('click', '.close-popup', function (e) {
+        $('.close-popup').off().on('click',  function (e) {
             e.preventDefault()
             $('.popup-overlay').removeClass('modal-overlay-visible')
             $('._popup_')
@@ -120,6 +123,7 @@
                     if ($(this).hasClass('slide-out')) {
                         $(this).hide()
                         $(db).off('touchmove')
+                        // $(this).remove()
                         slideOutCb && slideOutCb()
                     }
                 })

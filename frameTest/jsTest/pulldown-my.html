@@ -40,6 +40,9 @@ var fnCreateList = function () {
         html = html + '<li>列表内容'+ (Math.random() + '').slice(-1 * Math.ceil(10 * Math.random())) +'</li>'
     }
     $('#result').html(html);
+    $('li').on('click', function() {
+        alert(123321)
+    })
 };
 fnCreateList();
 

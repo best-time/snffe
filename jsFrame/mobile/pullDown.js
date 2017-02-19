@@ -29,7 +29,9 @@
 
             // 页面到顶部, 并且下拉            
             if ($(window).scrollTop() == 0 && distanceY > 0) {
-                event.preventDefault()
+
+                // 判断默认行为是否已经被禁用   新版chrome passive
+                 if (event.cancelable && !event.defaultPrevented) event.preventDefault();
 
                 if (data.markY === -1) {
                     // 1. 先设置标志量，此标志量只有在touch释放到时候才变更
@@ -38,7 +40,8 @@
                 }
 
                 el.css({
-                    height: damping(distanceY),
+                    height: damping(distanceY), 
+                    //  height: distanceY,
                     // borderBottomWidth: borderBottomWidth,
                     transition: 'none'
                 });
@@ -55,6 +58,7 @@
                         borderBottomWidth: 0,
                         height: maxY
                     })
+                    
                     setTimeout(function () {
                         el.css({
                             transition: '',
@@ -82,7 +86,7 @@
      */
     function damping(value) {
         var step = [20, 40, 60, 80, 100],
-            rate = [0.5, 0.4, 0.3, 0.2, 0.1],
+            rate = [0.6, 0.5, 0.4, 0.3, 0.2],
 
             scaleedValue = value,
             valueStepIndex = step.length;
@@ -100,4 +104,5 @@
 
         return scaleedValue;
     }
+
 }($, window, document)
