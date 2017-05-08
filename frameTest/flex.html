@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>flex</title>
+    <link rel="stylesheet" href="../cssFrame/css/flex.css">
+</head>
+<body>
+    <ul class="box">
+        <li>item - 1</li>
+        <li>item - 2</li>
+        <li>item - 3</li>
+        <!--<li>item - 4</li>
+        <li>item - 5</li>-->
+    </ul>
+
+
+    <ul class="box2">
+        <li>today is </li>
+        <li>tomorrow is thuesday, weather is sunshine esday, weather is sunshin esday, weather is sunshin</li>
+        <!--<li>item - 4</li>
+        <li>item - 5</li>-->
+    </ul>
+
+
+
+    <script>
+
+    // a.b.c
+        function nameSpace(str, obj) {
+            var parts = str.split('.'), 
+                item,
+                container = window
+
+            while(parts.length > 0) {
+                item = parts.shift()
+                if(parts.length === 0) {
+                    container[item] = obj || container[item] || {}
+                    return container[item]
+                } else {
+                    container[item] = container[item] || {}
+                }
+                container = container[item]
+            }
+            return obj
+        }
+
+
+        console.log(nameSpace('a.b.c', {name: 'uyyyy'}))
+
+console.info(a.b.c)
+
+    </script>
+
+</body>
+</html>

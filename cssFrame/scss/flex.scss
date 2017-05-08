@@ -1,0 +1,63 @@
+@charset 'utf-8';
+
+@import './base.scss';
+
+
+
+.box {
+    border: 1px solid red;
+    list-style: none;
+    background-color: #e8e8e9;
+
+    height: 400px;
+
+    @include flexbox();
+    flex-direction: row; // row || column || row-reverse || column-reverse;
+    flex-wrap: wrap; // wrap || no-wrap || wrap-reverse;
+
+    // flex-flow: column wrap; // flex-flow 是 flex-direction 和 Flex-wrap的简写属性，同时带有这两个属性的值。
+
+    justify-content: space-between; // flex-start || flex-end || center || space-between || space-around
+    // space-between 让每个弹性项目之间保持相同的间距。
+    // space-around 让弹性项目两侧的间距保持相同。
+
+    align-items: center; // flex-start || flex-end || center || stretch || baseline
+
+    // align-content 属性用于多行弹性容器。 除了没有 baseline 值以外，它的取值与 align-items 相同。
+
+
+    li {
+        margin: 4px;
+        width: 100px;
+        height: 100px;
+        background-color: #8cacea;
+
+        &:nth-child(2) {
+            order: 2; // order 属性允许对弹性容器内的弹性项目重新排序。
+            // order 属性的默认值是 0。它可以是负值，也可以是正值。
+            // 值得注意的是，弹性项目是根据 order 属性的数字值，从最低到最高来重新排序的。
+        }
+    }
+}
+
+.box2 {
+    margin-top: 100px;
+    border: 1px solid red;
+    list-style: none;
+    background-color: #e8e8e9;
+
+    // height: 400px;
+
+    @include flexbox();
+    li {
+        flex-grow: 1;
+        flex-basis: auto; 
+        margin: 4px;
+        // width: 100px;
+        // height: 100px;
+        background-color: #8cacea;
+
+        //  flex: 0 1 auto; 这跟写 flex: default 是一样的，是所有弹性项目的默认行为。
+    }
+
+}
