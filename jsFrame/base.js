@@ -32,9 +32,8 @@
 // 水波效果
         $(function(){
   $(".ripple").click(function(e){
-    if ($(this).find("#wave").length){
-      $(this).find("#wave").remove();
-    }
+    if ($(this).find("#wave").length) $(this).find("#wave").remove();
+    
     $(this).append("<div id='wave'></div>");
     var wave=$(this).find("#wave");
     wave.css({
@@ -47,10 +46,8 @@
       "transform": " scale(0)",
       "opacity": " 1",
       //涟漪的速度
-      "transition": " all 0.7s",
       "-webkit-transition": " all 0.7s",
-      "-moz-transition": " all 0.7s",
-      "-o-transition": " all 0.7s",
+      "transition": " all 0.7s",
       "z-index": " 1",
       "overflow": " hidden",
       "pointer-events": " none"
