@@ -14,16 +14,16 @@
 
 ;(function () {
 
-
     var _r_data_tag = "r-data", 
     _r_list_tag = 'r-list', 
     _r_display = 'r-display', 
     _r_click_function = 'r-click-function',
-     _r_click_change = 'r-click-change',
-      _in_it_common = "_in_it_common", 
-      _r_style = "r-style", 
-      _r_empty = "r-empty",
-       _r_default = "r-data-default";
+    _r_click_change = 'r-click-change',
+    _in_it_common = "_in_it_common", 
+    _r_style = "r-style", 
+    _r_empty = "r-empty",
+    _r_default = "r-data-default"
+    ;
 
     var click_change_function = function (url) {
         if (window)
@@ -36,18 +36,16 @@
     $_templateParser = null;
 
     function getValueByKeyPath(data, keypaths) {
-        if (keypaths == null) {
-            return data;
-        }
+        if (keypaths == null) return data;
+        
         var i = 0, 
-        out = data[keypaths[i++]], 
-        len = keypaths.length;
-
+            out = data[keypaths[i++]], 
+            len = keypaths.length
+            ;
 
         while (i < len) {
             if (out === undefined)  return null;
             out = out[keypaths[i++]];
-
         }
         return out;
     }
@@ -57,18 +55,14 @@
     }
 
     function $templateParser(key, data) {
-        if (data === undefined || data === null) {
-            return undefined;
-        }
+        if (data === undefined || data === null) return undefined;
+        
         var value = "";
-        if (key && key.indexOf("{") != -1) {
+        if (key && key.indexOf("{") !== -1) {
 
             value = key.replace(/{(.*?)}/gi, function () {
-
                 // console.log(arguments[1]);
                 var key_path = arguments[1].split(".");
-
-
                 var out = getValueByKeyPath(data, key_path);
                 // console.log(key_path);
                 // console.log(out);
@@ -78,6 +72,7 @@
                 if (out != undefined) {
                     return out;
                 } else {
+                    
                     if ($_templateParser) {
                         return $_templateParser(arguments[1], key_path)
                     }
@@ -85,8 +80,8 @@
                     return undefined;
                 }
             });
-        } else {
-
+        }
+         else {
 
             var out = data[key];
             if (out != undefined && out != null) {
@@ -94,14 +89,12 @@
             } else {
                 value = key;
             }
+
         }
 
-        if (value == "null") {
-            return null;
-        }
-        if (value == "undefined") {
-            return undefined;
-        }
+        if (value == "null") return null;
+        if (value == "undefined") return undefined;
+        
         return value;
 
     }
@@ -110,26 +103,38 @@
         var out = {
             data: {},
             view_group: null,
-            root_key_view: {},
+            root_key_view: {}, // key 是 { } 符号之间的变量名, value 是 get_group_from_dom(root) 返回数组的每一项
             is_data_set: false,
+            
             init: function (group) {
                 // console.log(group);
                 this.view_group = group;
                 var keytemp;
                 for (var i = 0; i < group.length; i++) {
 
-                    if (group[i].key.indexOf("{") != -1) {
-                        var keys = group[i].key.match(/{(.*?)}/gi);
+                    if (group[i].key.indexOf("{") !== -1) { // 包含 {
+
+                        var keys = group[i].key.match(/{(.*?)}/gi); // 完全匹配 [{params}]
+
                         for (var j = 0; j < keys.length; j++) {
-                            keys[j] = keys[j].substring(1, keys[j].length - 1);
-                            keytemp = (group[i].view._keypath.length == 0) ? keys[j] : group[i].view._keypath + "." + keys[j];
+                            keys[j] = keys[j].substring(1, keys[j].length - 1); // 去除 { } 符号
+                            keytemp = (group[i].view._keypath.length == 0) ? 
+                                        keys[j] 
+                                        : 
+                                        group[i].view._keypath + "." + keys[j];
 
                             if (!this.root_key_view[keytemp]) this.root_key_view[keytemp] = [];
                             this.root_key_view[keytemp].push(group[i]);
                         }
-                    } else {
 
-                        keytemp = (group[i].view._keypath.length == 0) ? group[i].key : group[i].view._keypath + "." + group[i].key;
+                    } 
+                    else {
+
+                        keytemp = (group[i].view._keypath.length == 0) ? 
+                                            group[i].key 
+                                            : 
+                                            group[i].view._keypath + "." + group[i].key;
+
                         if (group[i].type == _r_data_tag || group[i].type == _r_list_tag) {
 
 
@@ -142,11 +147,11 @@
 
                     }
 
-
                 }
                 //console.log(this.root_key_view);
                 return this;
             },
+
             setData: function (data) {
 
                 var group = [];
@@ -158,16 +163,21 @@
                 while (datagroup.length > 0) {
                     var subdata = datagroup.shift();
 
-
                     for (var index in subdata.data) {
 
-                        if (( subdata.data[index] instanceof Array) || (!subdata.data[index]) || (!(subdata.data[index] instanceof Object) )) {
-                            subdata.todata[index] = subdata.data[index];
+                        if (
+                            ( subdata.data[index] instanceof Array) ||  // 是数组
+                            (!subdata.data[index]) ||   // 当前值 !! 为false
+                            (!(subdata.data[index] instanceof Object) ) // 不是对象
+                        ) {
+                            subdata.todata[index] = subdata.data[index]; // 赋给 todata 属性
                             tmpkeypath = subdata.keypath.concat(index).join(".");
 
                             if (this.root_key_view[tmpkeypath])
                                 group = group.concat(this.root_key_view[tmpkeypath]);
-                        } else {
+
+                        } 
+                        else {
                             subdata.todata[index] = {};
 
                             datagroup.push({
@@ -177,10 +187,8 @@
                             });
                         }
 
-
                     }
                 }
-
 
                 if (!this.is_data_set) {
                     this.renderView(this.view_group, this.data, false);
@@ -190,16 +198,18 @@
                 return this;
 
             },
+
             addData: function (data) {
                 var group = [];
                 for (var index in data) {
 
                     if (data[index] instanceof Array) {
+
                         if (!this.data[index]) this.data[index] = [];
                         for (var i = 0; i < data[index].length; i++) {
                             this.data[index].push(data[index][i]);
-
                         }
+
                     } else {
                         this.data[index] = data[index];
                     }
@@ -211,12 +221,12 @@
                 this.renderView(group, data, true);
                 return this;
             },
+
             getData: function () {
                 return this.data;
             },
+
             getDataValue: function (key) {
-
-
                 return getValueByKeyPath(this.data, arguments);
             },
 
@@ -224,7 +234,12 @@
 
                 var userdata = {};
                 for (var i = 0; i < group.length; i++) {
-                    userdata = getValueByKeyPath(data, group[i].view['_keypath'].length == 0 ? null : group[i].view['_keypath'].split("."));
+                    userdata = getValueByKeyPath(data, 
+                                            group[i].view['_keypath'].length == 0 ? 
+                                                                null 
+                                                                : 
+                                                                group[i].view['_keypath'].split(".")
+                                        );
                     if (group[i].type == _r_data_tag) {
 
                         this.showValue(group[i].view, group[i].key, userdata, group[i]['d_v']);
@@ -248,14 +263,13 @@
 
                             }
 
-
                             return;
                         }
-
 
                         group[i].view['is_empty'] = false;
                         var template_index = 0;
                         var template_display_string = [];
+
                         if (group[i].template.length > 0) {
 
                             for (var he = 0; he < group[i].template.length; he++) {
@@ -264,6 +278,7 @@
                             }
 
                         }
+
                         for (var j = 0, item = {}; j < listdata.length; j++) {
 
                             if (typeof listdata[j] != "object") {
@@ -293,20 +308,30 @@
 
                         }
                     } else if (group[i].type == _r_display) {
+
                         this.displayView(group[i].view, group[i].key, userdata);
+                        
                     } else if (group[i].type == _r_click_function) {
+
                         this.clickFunction(group[i].view, group[i].key, userdata);
+
                     } else if (group[i].type == _r_click_change) {
+
                         this.clickChange(group[i].view, group[i].key, userdata);
+
                     } else if (group[i].type == _r_style) {
+
                         this.viewStyle(group[i].view, group[i].key, userdata);
+
                     } else if (group[i].type == "attr") {
+
                         this.viewAttr(group[i].view, group[i].key, userdata, group[i].attr_name);
+
                     }
                 }
             },
-            showValue: function (view, value, data, defaultvalue) {
 
+            showValue: function (view, value, data, defaultvalue) {
 
                 var v = $templateParser(value, data);
 
@@ -334,14 +359,20 @@
                 if (!enable_r_tag_show)
                     view.removeAttribute(_r_data_tag);
             },
+
             displayView: function (view, value, data) {
 
                 var string = $templateParser(value, data);
 
                 if (string.indexOf("{") == -1) {
-                    var viewstyle = view.currentStyle ? view.currentStyle : document.defaultView.getComputedStyle(view, null);
+
+                    var viewstyle = view.currentStyle ? 
+                                    view.currentStyle 
+                                    : 
+                                    document.defaultView.getComputedStyle(view, null);
 
                     if (eval(string)) {
+
                         if (viewstyle["display"] == "none") {
                             if (view.displayValue) {
                                 view.style.display = view.displayValue;
@@ -357,18 +388,19 @@
                         view.style.display = "none";
                     }
 
-
                 }
+
                 if (!enable_r_tag_show)
                     view.removeAttribute(_r_display);
             },
+
             viewAttr: function (view, value, data, attr_name) {
 
                 var string = $templateParser(value, data);
                 view.setAttribute(attr_name, string);
 
-
             },
+
             viewStyle: function (view, value, data) {
 
                 var string = $templateParser(value, data);
@@ -377,6 +409,7 @@
                 if (!enable_r_tag_show)
                     view.removeAttribute(_r_style);
             },
+
             clickFunction: function (view, value, data) {
 
                 var string = $templateParser(value, data);
@@ -394,9 +427,11 @@
 
                     window[to].apply(view, arg);
                 };
+
                 if (!enable_r_tag_show)
                     view.removeAttribute(_r_click_function);
             },
+
             clickChange: function (view, value, data) {
 
                 var string = $templateParser(value, data);
@@ -410,6 +445,7 @@
                     view.removeAttribute(_r_click_change);
 
             },
+
             getBool: function (value, data) {
 
                 var string = $templateParser(value, data);
@@ -423,6 +459,7 @@
                 }
                 return true;
             }
+
         };
         return out.init(group);
     }
@@ -431,31 +468,28 @@
     function get_group_from_dom(root) {
 
         root['_keypath'] = "";
-        var rView = [], groups = [{obj: rView, root: root}];
+
+        var rView = [], 
+            groups = [{obj: rView, root: root}];
 
         while (groups.length > 0) {
-            var subgroup = groups.shift(), node = subgroup.root;
+            var subgroup = groups.shift(), // 从数组头部 取一个, 数组长度减一
+                node = subgroup.root;
 
-
-            if (getOneItem(subgroup.obj, node)) {
-                continue;
-            }
-
-
-            var i = 0, childNodes = node.childNodes, item;
+            if (getOneItem(subgroup.obj, node))  continue
+            
+            var i = 0, 
+                childNodes = node.childNodes, 
+                item;
             // console.log(childNodes);
-
             for (; i < childNodes.length; i++) {
                 item = childNodes[i];
 
-                if (item.nodeType === 1) {
+                if (item.nodeType === 1) { //  nodeType: (1 是元素 / 2 是属性/ 3 是文本)
                     //递归先序遍历子节点
-                    // console.log(item);
                     item['_keypath'] = node['_keypath'];
                     groups.push({obj: subgroup.obj, root: item});
                     //getOneItem(subgroup.obj, item);
-
-
                 }
             }
         }
@@ -467,23 +501,40 @@
 
             if (key) {
                 // console.log(key+":"+item.childElementCount);
-                if (item.childElementCount > 0) {
+
+                if (item.childElementCount > 0) { // 有子元素
 
                     if (key.indexOf("{") > -1) {
                         key = key.substring(1, key.length - 1);
                     }
 
-                    item["_keypath"] = item["_keypath"] ? (item["_keypath"].length == 0 ? key : (item["_keypath"] + "." + key)) : key;
+                    item["_keypath"] = item["_keypath"] ? 
+                                    (item["_keypath"].length == 0 ? key : (item["_keypath"] + "." + key)) 
+                                    : 
+                                    key;
                     return false;
                 } else {
-                    groupobj.push({type: _r_data_tag, view: item, key: key, d_v: item.getAttribute(_r_default)});
+                    groupobj.push(
+                        {
+                            type: _r_data_tag,  // tag
+                            view: item,         // 当前对象
+                            key: key,       // r-类 属性值
+                            d_v: item.getAttribute(_r_default) // r-data-default 属性值
+                        }
+                    );
                 }
 
 
             } else {
                 key = item.getAttribute(_r_list_tag);
                 if (key) {
-                    var onnode = {type: _r_list_tag, view: item, key: key, template: [], empty_view: null};
+                    var onnode = {
+                        type: _r_list_tag, 
+                        view: item, 
+                        key: key, 
+                        template: [], 
+                        empty_view: null
+                    };
 
                     var hh = 0;
                     for (var h = 0; h < item.childNodes.length; h++) {
@@ -524,61 +575,76 @@
         }
 
         function orderAttr(obj, item) {
+
             key = item.getAttribute(_r_display);
             if (key) {
                 obj.push({type: _r_display, view: item, key: key});
             }
+
             key = item.getAttribute(_r_click_function);
             if (key) {
                 obj.push({type: _r_click_function, view: item, key: key});
             }
+
             key = item.getAttribute(_r_click_change);
             if (key) {
                 obj.push({type: _r_click_change, view: item, key: key});
             }
+
             key = item.getAttribute(_r_style);
             if (key) {
                 obj.push({type: _r_style, view: item, key: key});
             }
 
-            //console.log(item.attributes);
-            var attrs = item.attributes, name, value;
+
+            var attrs = item.attributes,  // dom对象的所有属性
+                name, 
+                value;
             for (var i = 0; i < attrs.length; i++) {
                 name = attrs[i].nodeName;
-                if (name.indexOf("r-") !== 0) {
+                if (name.indexOf("r-") !== 0) { // 不是 r- 开头的属性
                     value = attrs[i].nodeValue;
-                    if (value && value["substring"] && (value.indexOf("{") !== -1)) {
-                        obj.push({type: "attr", view: item, key: value, "attr_name": name});
+                    if (value && 
+                        value["substring"] && 
+                        (value.indexOf("{") !== -1) // 包含 '{'
+                    ) {
+                        obj.push(
+                            {
+                                type: "attr", 
+                                view: item, 
+                                key: value, 
+                                "attr_name": name
+                            }
+                        );
                     }
                 }
             }
-
-
         }
 
-        // console.log(rView);
+
         return rView;
     }
 
     function epii(root) {
 
-        var tmp1 = get_group_from_dom(root)
-        return get_epii_mode(tmp1);
+        var tmp1 = get_group_from_dom(root) // 收集 [{type, view, key, attr_name}]
+        var tmp2 = get_epii_mode(tmp1)
+        return tmp2;
 
     }
 
-    epii.setClickToChangeFunction = function (callback) {
-        click_change_function = callback;
-        return epii;
-    };
-    epii.setEnableRtagShow = function (b) {
-        enable_r_tag_show = b;
-        return epii;
-    };
-    epii.setTemplateParser = function (f) {
-        $_templateParser = f;
-        return epii;
-    };
+    // epii.setClickToChangeFunction = function (callback) {
+    //     click_change_function = callback;
+    //     return epii;
+    // };
+    // epii.setEnableRtagShow = function (b) {
+    //     enable_r_tag_show = b;
+    //     return epii;
+    // };
+    // epii.setTemplateParser = function (f) {
+    //     $_templateParser = f;
+    //     return epii;
+    // };
 
     if (typeof module !== 'undefined' && typeof exports === 'object') {
         module.exports = epii;
