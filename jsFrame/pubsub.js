@@ -142,12 +142,16 @@
           x,
           y = subs instanceof Array ? subs.length : 0;
 
-        for (x = 0; x < y; x += 1) {
-          if (subs[x] === callback) {
-            subs.splice(x, 1);
-            break;
+        // setTimeout(function () {
+          for (x = 0; x < y; x += 1) {
+            if (subs[x] === callback) {
+              subs.splice(x, 1);
+              break;
+            }
           }
-        }
+          console.log(channels)
+        // }, 10)
+        
       }
     };
   }
