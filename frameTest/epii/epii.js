@@ -466,36 +466,10 @@
 
 
     function get_group_from_dom(root) {
-
-        root['_keypath'] = "";
-
-        var rView = [], 
-            groups = [{obj: rView, root: root}];
-
-        while (groups.length > 0) {
-            var subgroup = groups.shift(), // 从数组头部 取一个, 数组长度减一
-                node = subgroup.root;
-
-            if (getOneItem(subgroup.obj, node))  continue
-            
-            var i = 0, 
-                childNodes = node.childNodes, 
-                item;
-            // console.log(childNodes);
-            for (; i < childNodes.length; i++) {
-                item = childNodes[i];
-
-                if (item.nodeType === 1) { //  nodeType: (1 是元素 / 2 是属性/ 3 是文本)
-                    //递归先序遍历子节点
-                    item['_keypath'] = node['_keypath'];
-                    groups.push({obj: subgroup.obj, root: item});
-                    //getOneItem(subgroup.obj, item);
-                }
-            }
-        }
+        
 
         function getOneItem(groupobj, item) {
-
+            
             //  console.log(item["_keypath"]);
             var key = item.getAttribute(_r_data_tag);
 
@@ -621,6 +595,32 @@
             }
         }
 
+        root['_keypath'] = "";
+
+        var rView = [], 
+            groups = [{obj: rView, root: root}];
+
+        while (groups.length > 0) {
+            var subgroup = groups.shift(), // 从数组头部 取一个, 数组长度减一
+                node = subgroup.root;
+
+            if (getOneItem(subgroup.obj, node))  continue
+            
+            var i = 0, 
+                childNodes = node.childNodes, 
+                item;
+            // console.log(childNodes);
+            for (; i < childNodes.length; i++) {
+                item = childNodes[i];
+
+                if (item.nodeType === 1) { //  nodeType: (1 是元素 / 2 是属性/ 3 是文本)
+                    //递归先序遍历子节点
+                    item['_keypath'] = node['_keypath'];
+                    groups.push({obj: subgroup.obj, root: item});
+                    //getOneItem(subgroup.obj, item);
+                }
+            }
+        }
 
         return rView;
     }
@@ -628,6 +628,7 @@
     function epii(root) {
 
         var tmp1 = get_group_from_dom(root) // 收集 [{type, view, key, attr_name}]
+        console.log(tmp1)
         var tmp2 = get_epii_mode(tmp1)
         return tmp2;
 

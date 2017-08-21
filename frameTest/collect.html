@@ -11,29 +11,22 @@
     <style>
 
 .loading:after {
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: bottom;
-    -webkit-animation: ellipsis 2s infinite;
-    -moz-animation: ellipsis 2s infinite;
-    animation: ellipsis 2s infinite;
-    content: "\2026"; /* ascii code for the ellipsis character */
-}
-@-moz-keyframes ellipsis {
-    from {
-        width: 2px;
-    }
-    to {
-        width: 15px;
-    }
-}
-@-moz-keyframes ellipsis {
-  from {
-    width: 2px;
-  }
-  to {
-    width: 15px;
-  }
+display: inline-block;
+
+overflow: hidden;
+
+width: 100px;
+
+content: "\2026"; /* ascii code for the ellipsis character */
+
+vertical-align: bottom;
+
+-webkit-animation: ellipsis 2s infinite;
+
+-moz-animation: ellipsis 2s infinite;
+
+animation: ellipsis 2s infinite;
+
 }
 
 @-webkit-keyframes ellipsis {
@@ -44,6 +37,17 @@
     width: 15px;
   }
 }
+@keyframes ellipsis {
+  
+  from {
+    width: 2px;
+  }
+  to {
+    width: 15px;
+  }
+}
+
+
 </style>
 </head>
 <body style="overflow-x: hidden">
