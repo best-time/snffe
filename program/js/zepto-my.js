@@ -1434,11 +1434,7 @@ window.$ === undefined && (window.$ = Zepto)
             if (selector) {
                 delegator = function (e) {
                     var evt,
-<<<<<<< HEAD:test/js/zepto-my.js
                         match = $(e.target).closest(selector, element).get(0)
-=======
-                        match = $(e.target).closest(selector, element).get(0);
->>>>>>> 225cf60608761959181bb3b6ed25532c7f71e1b0:practice/test2/js/zepto-my.js
                     if (match && match !== element) {
                         evt = $.extend(createProxy(e), {currentTarget: match, liveFired: element});
                         var temp1 = [evt].concat(slice.call(arguments, 1));

@@ -12,6 +12,7 @@
  *
  */
 
+
 ;(function () {
 
     var _r_data_tag = "r-data", 
@@ -469,7 +470,6 @@
         
 
         function getOneItem(groupobj, item) {
-            
             //  console.log(item["_keypath"]);
             var key = item.getAttribute(_r_data_tag);
 
@@ -550,6 +550,7 @@
 
         function orderAttr(obj, item) {
 
+            var key
             key = item.getAttribute(_r_display);
             if (key) {
                 obj.push({type: _r_display, view: item, key: key});

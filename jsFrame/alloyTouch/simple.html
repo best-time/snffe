@@ -236,43 +236,38 @@
         // fetchJsonp(s);
 
         </script>
-        <script src="jsonp.js"></script>
+        <!-- <script src="jsonp.js"></script> -->
         <script>
-            JSONP({
-                url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
-                data: { wd: '132', json: 1 },
-                success: baidu.sug
+            // JSONP({
+            //     url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
+            //     data: { wd: '132', json: 1 },
+            //     success: baidu.sug
 
-                //function(data) { console.log(data); }
-            });
+            //     //function(data) { console.log(data); }
+            // });
 
         </script>
 
-        <!-- <script src="alloy-level.js"></script> -->
+        <!-- <script src="alloy-level.js"></script>
         <script>
-            // AlloyLever.config({
-            //     cdn: '//s.url.cn/qqun/qun/qqweb/m/qun/confession/js/vconsole.min.js',  //vconsole的CDN地址
-            //     reportUrl: "http://localhost:9999/snffe/jsFrame/alloyTouch/simple.html",  //错误上报地址
-            //     reportPrefix: 'qun',    //错误上报msg前缀，一般用于标识业务类型
-            //     reportKey: 'msg',        //错误上报msg前缀的key，用户上报系统接收存储msg
-            //     otherReport: {              //需要上报的其他信息
-            //         uin: 491862102
-            //     },
-            //     entry: "#entry"          //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
-            // })
 
-            // try {
-            //     // avc
-            // } catch (e) {
-            //     throw e;
-            // }
+            AlloyLever.config({
+                cdn: '//s.url.cn/qqun/qun/qqweb/m/qun/confession/js/vconsole.min.js',  //vconsole的CDN地址
+                reportUrl: "http://localhost:9999/snffe/jsFrame/alloyTouch/simple.html",  //错误上报地址
+                reportPrefix: 'qun',    //错误上报msg前缀，一般用于标识业务类型
+                reportKey: 'msg',        //错误上报msg前缀的key，用户上报系统接收存储msg
+                otherReport: {              //需要上报的其他信息
+                    uin: 491862102
+                },
+                entry: "#entry"          //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
+            })
 
-        </script>
+        </script> -->
 
-        <!-- <script src="https://respay.suning.com/epwm/scripts/loginsms/lib/eruda.min.js"></script>
+        <script src="https://respay.suning.com/epwm/scripts/loginsms/lib/eruda.min.js"></script>
 <script>
-    eruda.init()
-</script> -->
+    // eruda.init()
+</script>
 <script src="../base.js"></script>
 <!-- <script src="../pubsub.js"></script> -->
 <script>
@@ -299,15 +294,26 @@
 // 	//unsubscribe from the topic
 // 	p.unsubscribe(handle);
 
-    var p = pubSub
-    var h = p.sub('aa', function(name) {
-        console.log(name + '----')
-    })
-// console.log(h)
+//     var p = pubSub
+//     var h = p.sub('aa', function(name) {
+//         console.log(name + '----')
+//     })
+// // console.log(h)
 
-    p.pub('aa', 'oooooooo')
-    p.unsub(h)
+//     p.pub('aa', 'oooooooo')
+//     p.unsub(h)
+var a1 = {name: 111}, b1 = {grade: [1,2,3], oo:{a: 1, b:2}}
 
+eve.extend(a1, b1)
+// eve.extend2(a1, b1)
+a1.grade.pop()
+a1.oo.a = 333333333
+// console.log(a1)
+// console.log(b1)
+
+// eve.extend2(a1, b1)
+console.log(a1)
+console.log(b1)
 </script>
     </body>
 
