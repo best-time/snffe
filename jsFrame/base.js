@@ -1,5 +1,11 @@
 (function (win, cb) {
     
+    class a {
+        constructor(age) {
+            this.age  = age
+        }
+    }
+
     win.eve = Object.create(cb())
 })(this || window, function () {
         
@@ -15,14 +21,14 @@
         return +new Date() || new Date() - 0 || new Date().getTime();
     };
 
-    requestAnimationFrame = function (callback) {
+    let requestAnimationFrame = function (callback) {
         if (requestAnimationFrame) return requestAnimationFrame(callback);
         else if (webkitRequestAnimationFrame) return webkitRequestAnimationFrame(callback);
         else if (mozRequestAnimationFrame) return mozRequestAnimationFrame(callback);
         else return setTimeout(callback, 1000 / 60);
             
     };
-    cancelAnimationFrame = function (id) {
+    let cancelAnimationFrame = function (id) {
         if (cancelAnimationFrame) return cancelAnimationFrame(id);
         else if (webkitCancelAnimationFrame) return webkitCancelAnimationFrame(id);
         else if (mozCancelAnimationFrame) return mozCancelAnimationFrame(id);
@@ -42,7 +48,6 @@
         location.replace(location)
         document.URL = location.href
     }
-
 
 
     function nameSpace(str, obj) {
@@ -164,6 +169,15 @@
         init();
     });
      */
+
+     class log {
+         constructor() {
+
+         }
+         log(s) {
+             console.log(s)
+         }
+     }
 
 
     return {
