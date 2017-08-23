@@ -89,37 +89,13 @@
         return Object.prototype.toString.call(o) === '[object ' + (type || 'Object') + ']'
     }    
   
-    // var fnJsLoad = function (url, callback) {
-    //     callback = callback || function () { };
-
-    //     var eleScript = document.createElement('script');
-    
-    //     eleScript.onload = function () {
-    //         if (!eleScript.isInited) {
-    //             eleScript.isInited = true;
-    //             callback();
-    //         }
-    //     };
-    //     // 一般而言，低版本IE走这个
-    //     eleScript.onreadystatechange = function () {
-    //         if (!eleScript.isInited && /^loaded|complete$/.test(eleScript.readyState)) {
-    //             eleScript.isInited = true;
-    //             callback();
-    //         }
-    //     };
-
-    //     eleScript.src = url;
-
-    //     doc.getElementsByTagName('head')[0].appendChild(eleScript);
-    // };
-        
-    function loadScript(url, callback) {
+    function loadScript(url, callback = function () { }) {
         var s, h, r = false
         s = document.createElement('script')
         s.type = 'text/javascript'
         s.src = url
         s.onload = s.onreadystatechange = function () {
-            if (!r && ( this.readyState || this.readyState == 'complete')) {
+            if (!r && ( !this.readyState || this.readyState == 'complete')) {
                 r = true
                 callback()
             }
@@ -155,36 +131,44 @@
         exec()
     }    
         
-    /*
-        // IE10+加载zepto.js
-    // IE7-IE9加载jQuery
-    var URLLIB = '/js/zepto.min.js';
-    
-    if (!history.pushState) {
-        URLLIB = '/js/jquery.min.js';
-    }
-    
-    fnJsLoad(URLLIB, function() {
-        // 业务脚本初始化
-        init();
-    });
-     */
-
      class log {
          constructor() {
-
+             this.log = this.log.bind(this) 
          }
-         log(s) {
-             console.log(s)
-         }
+         echo(type, pre, mid, suf) {
+            console[type](
+                "%c " + (pre[0] ? pre[0] + ' ' : '') + "%c " + (mid[0] ? mid[0] + ' ' : '') + "%c " + (suf[0] ? suf[0] + ' ' : ''),
+                "color: #ffffff; background:" + pre[1],
+                "color: #ffffff; background:" + mid[1],
+                "color: #ffffff; background:" + (suf[0] ? suf[1] : mid[1])
+            )
+        }
+         log(message, title, description) {
+            this.echo('log', [title, '#999'], [message, '#333'], [description, '#666'])
+        }
+        info (message, title, description) {
+            this.echo('info', [title, '#0cf'], [message, '#06c'], [description, '#0c0'])
+        }
+        warn (message, title, description) {
+            this.echo('warn', [title, '#f60'], [message, '#f30'], [description, '#f90'])
+        }
+        error (message, title, description) {
+            this.echo('warn', [title, '#f06'], [message, '#903'], [description, '#993'])
+        }
+        dir(message) {
+            console.dir.apply(console, message)
+        }
+         
      }
-
-
+        
+     var logg = new log() 
+     
     return {
         nameSpace: nameSpace,
         extend: extend,
         loadScript: loadScript,
-        delay: delay
+        delay: delay,
+        print: logg
     }
 });
 
@@ -193,34 +177,6 @@
     window.DEBUG = true
 !function (win, doc, undefined) {
 
-    function log(info) {
-        
-    }
-    var cc = {
-        echo: function (type, pre, mid, suf) {
-            console[type](
-                "%c " + (pre[0] ? pre[0] + ' ' : '') + "%c " + (mid[0] ? mid[0] + ' ' : '') + "%c " + (suf[0] ? suf[0] + ' ' : ''),
-                "color: #ffffff; background:" + pre[1],
-                "color: #ffffff; background:" + mid[1],
-                "color: #ffffff; background:" + (suf[0] ? suf[1] : mid[1])
-            )
-        },
-        log: function (message, title, description) {
-            this.echo('log', [title, '#999'], [message, '#333'], [description, '#666'])
-        },
-        info: function (message, title, description) {
-            this.echo('info', [title, '#0cf'], [message, '#06c'], [description, '#0c0'])
-        },
-        warn: function (message, title, description) {
-            this.echo('warn', [title, '#f60'], [message, '#f30'], [description, '#f90'])
-        },
-        error: function (message, title, description) {
-            this.echo('warn', [title, '#f06'], [message, '#903'], [description, '#993'])
-        },
-        dir: function (message) {
-            console.dir.apply(console, message)
-        }
-    }
         
     function pubSub() {
         var chanels = {}
@@ -274,41 +230,6 @@
 }(window, document);
     
 
-//============================== load console ============================================
-
-!function (win, doc, undefined) {
-    
-    function getParameter(n) {
-        var m = window.location.hash.match(
-            new RegExp("(?:#|&)" + n + "=([^&]*)(&|$)")
-          ),
-          result = !m ? "" : decodeURIComponent(m[1]);
-        return result || getParameterByName(n);
-      }
-    
-      function getParameterByName(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-          results = regex.exec(url); // 只有指定为全局匹配，才能够按照从左往右依次去匹配
-        if (!results) return null;
-        if (!results[2]) return "";
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-      }
-    
-    var parameter = getParameter("console");
-      
-    if (parameter) {
-        if (parameter === "show") {
-            AlloyLever.vConsole(true);
-        } else {
-            AlloyLever.vConsole(false);
-        }
-    }
-
-}(this || window, document)
-
-
 function wave() {
 
     // 水波效果
@@ -355,3 +276,80 @@ function wave() {
         });
     });
 }
+
+// =================================== tool ================================
+
+!function () { 
+    
+    /**
+     * 数组去重
+     *
+     * 1.遍历数组，一一比较，比较到相同的就删除后面的
+     * 2.遍历数组，一一比较，比较到相同的，跳过前面重复的，不相同的放入新数组
+     * 3.任取一个数组元素放入新数组，遍历剩下的数组元素任取一个，与新数组的元素一一比较，如果有不同的，放入新数组。
+     * 4.遍历数组，取一个元素，作为对象的属性，判断属性是否存在
+     * 
+     * @param {any} arr 
+     * @returns 
+     */
+
+    function ov1(arr){
+        //var a1=((new Date).getTime())
+        for (var i = 0; i < arr.length; i++) {
+            for (var j = i + 1; j < arr.length; j++) {
+                if (arr[i] === arr[j]) {
+                    arr.splice(j, 1); j--;
+                }  
+            }
+        }
+                      
+        //console.info((new Date).getTime()-a1)                
+        return arr.sort(function(a,b){return a-b});
+    }
+
+    function ov2(a) {
+        //var a1=((new Date).getTime())
+        var b = [], n = a.length, i, j;
+        for (i = 0; i < n; i++) {
+            for (j = i + 1; j < n; j++)
+                if (a[i] === a[j]){j=false;break;}
+            if(j)b.push(a[i]);
+            }
+        //console.info((new Date).getTime()-a1)    
+        return b.sort(function(a,b){return a-b});
+    }
+
+    function ov3(a) {
+        //var a1=((new Date).getTime())
+        var b = [], n = a.length, i, j;
+        for (i = 0; i < n; i++) {
+            for (j = i + 1; j < n; j++)
+            if (a[i] === a[j])j=++i
+        b.push(a[i]);}
+        //console.info((new Date).getTime()-a1)    
+        return b.sort(function(a,b){return a-b});
+    }
+
+    function ov4(ar){
+        //var a1=((new Date).getTime())
+            var m=[],f;
+            for(var i=0;i<ar.length;i++){
+            f=true; 
+            for(var j=0;j<m.length;j++)
+            if(ar[i]===m[j]){f=false;break;};
+            if(f)m.push(ar[i])}
+        //console.info((new Date).getTime()-a1)    
+            return m.sort(function(a,b){return a-b});
+    }
+    
+    function ov5(ar){
+        //    var a1=(new Date).getTime()
+                var m,n=[],o= {};
+                for (var i=0;(m= ar[i])!==undefined;i++)
+                if (!o[m]){n.push(m);o[m]=true;}
+        //    console.info((new Date).getTime()-a1)    
+            return n.sort(function(a,b){return a-b});;
+    }
+    
+
+}(window, document)
