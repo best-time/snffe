@@ -1,15 +1,12 @@
 (function (win, cb) {
     
-    class a {
-        constructor(age) {
-            this.age  = age
-        }
-    }
 
     win.eve = Object.create(cb())
 })(this || window, function () {
         
     'use strict'
+
+    var win = window, doc = document, db = doc.body
         
     function _(obj) {
         if (obj instanceof _) return obj;
@@ -69,7 +66,7 @@
     }
     
     function extend(dest, obj) {
-        // if (!isType(obj, 'Object') || !isType(dest, 'Object')) return
+        if (!isType(obj, 'Object') || !isType(dest, 'Object')) throw('type Error')
         var keys = Object.keys(obj), len = keys.length, i = len, tmp
         while (--i >= 0) {
             tmp = keys[i]
@@ -103,6 +100,59 @@
         h = document.getElementsByTagName('head')[0]
         h.appendChild(s)
     }
+
+    // a.b.c
+    function nameSpace(name) {
+        if(!name) return window
+
+        var arr = name.split('.'), 
+        len = arr.length, 
+        i = -1,
+        ns = window,
+        n
+        while( ++i < len) {
+            n = arr[i]
+            if(!ns[n]) ns[n] = {}
+            ns = ns[n]
+        }
+        return ns
+    }
+
+    
+
+    var E = {
+         $package: function(ns, func) {
+            var target
+            if(typeof ns === 'function') {
+                func = ns
+                target = window
+            } else if (typeof ns === 'string') {
+                target = nameSpace(ns)
+            } else if (typeof ns === 'object') {
+                target = ns
+            }
+            func.call(target, this)
+        },
+        bind: function(func, context, ...args) {
+            return function() {
+                return func.apply(context, args.concat([].slice.call(arguments)))
+            }
+        }
+    }
+
+    function a(b) {
+        console.log(arguments)
+    }
+    var bb = {
+        b: [33,44]
+    }
+    var rr = E.bind(a, bb, 1,2,3)
+    rr('aa','bb')
+
+    // E.$package(function(E) {
+    //     var nn = 'nn'
+    //     E.nn = nn
+    // })
     
     function delay(func, millisecond, start) {
         var list = [], millisecond = millisecond || 0
@@ -168,7 +218,9 @@
         extend: extend,
         loadScript: loadScript,
         delay: delay,
-        print: logg
+        print: logg,
+        nameSpace: nameSpace,
+        E: E
     }
 });
 
@@ -352,4 +404,33 @@ function wave() {
     }
     
 
+}(window, document)
+
+// ===========================获取前缀================================
+!function(win, doc, undefined) {
+
+    var styles, pre, dom, 
+        prefix = {
+            dom: '',
+            lowercase: '',
+            css: '',
+            js: ''
+        }
+    if(win.getComputedStyle) {
+        styles = win.getComputedStyle(doc.documentElement, '')
+        pre = Array.prototype.slice.call(styles)
+            .join('')
+            .match(/-(webkit|ms|moz)-/)[1]
+        dom = ('Webkit|Moz|MS').match(new RegExp('(' + pre + ')', 'i'))[1]
+
+        prefix = {
+            dom: dom,
+            lowercase: pre,
+            js: pre,
+            css: '-' + pre + '-'
+        }
+    }
+
+    eve.extend(eve.prefix = {}, prefix)
+    
 }(window, document)

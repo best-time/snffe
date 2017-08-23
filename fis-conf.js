@@ -1,3 +1,14 @@
+/**
+ * 
+ * 常用命令:
+ * 
+ * fis3 server start --root 'output'
+ * 
+ * fis3 release -wL './output'
+ * 
+ * fis3 server stop
+ */
+
 fis.match('*', {
     useHash: false
   });
