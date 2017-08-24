@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="description" content="[a single mvvm]">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <style>
+  h1 {
+      background-color: #e8e8e8;
+  }
+  </style>
+</head>
+<body>
+<div id="root">
+  <div>
+    <div lait-model="user"></div>
+    <ul lait-list="todos">
+      <h1 lait-model="title"></h1>
+      <div>
+      <li lait-list-item="todos">
+        <p lait-class="todos:done" lait-model="todos:creator"></p>
+        <p lait-model="todos:date"></p>
+        <p lait-model="todos:content"></p>
+        <ul lait-list="todos:members">
+          <li lait-list-item="todos:members">
+            <span lait-model="todos:members:name"></span>
+          </li>
+        </ul>
+      </li>
+      </div>
+    </ul>
+  </div>
+</div>
+<div id="bind">
+  <h1 lait-model="title"></h1>
+  <input lait-model="content" lait-event="input" type="text" />
+  <p lait-model="content"></p>
+  <p lait-model="content"></p>
+</div>
+<div id="nest">
+  <h1 lait-model="title"></h1>
+  <h2 lait-model="todos:title"></h1>
+  <ul lait-list="todos:tag:members">
+    <li lait-list-item="todos:tag:members">
+      <span lait-model="todos:tag:members:name"></span>
+    </li>
+  </ul>
+</div>
+<div id="arr">
+  <div>
+  <div>
+  <ul lait-list="todos:words:arr">
+  <div>
+  <div>
+    <li lait-list-item="todos:words:arr">
+  <div>
+  <div>
+      <span lait-model="todos:words:arr"></span>
+  </div>
+  </div>
+    </li>
+  </div>
+  </div>
+  </ul>
+  </div>
+  </div>
+</div>
+<script src="la.js"></script>
+<script>
+
+  let data = {
+    title: 'todo',
+    user: 'mirone',
+    todos: [
+      {
+        creator: 'keal',
+        done: 'undone',
+        content: 'writeMVVM',
+        date: '2016-11-17',
+        members: [
+          {
+            name: 'kaito'
+          },
+          {
+            name: 'hito'
+          },
+          {
+            name: 'QAQ'
+          }
+        ]
+      },
+      {
+        creator: 'mirone',
+        done: 'undone',
+        content: 'writeNode',
+        date: '2016-12-17',
+        members: [
+          {
+            name: 'hitomiao'
+          },
+          {
+            name: 'miaomiao'
+          }
+        ]
+      }
+    ]
+  }
+  new Latte({
+    el: '#root', 
+    data
+  })
+  
+  data.todos[0].done = 'done'
+  data.todos[1].members[0].name = 'UU'
+  data.todos[1].members.push({name: 'hitori'})
+  data.title = 'todo list!'
+  data.todos.push({
+    creator: 'k',
+    done: 'undone',
+    date: '2016-12-24',
+    content: 'get mvvm',
+    members: [
+      {
+        name: 'hito'
+      },
+    ]
+  })
+  data.todos[2].members.push({
+    name: 'asuna'
+  })
+  data.todos.splice(1, 1)
+  
+  let bind = {
+    title: 'data bind',
+    content: 'qaq'
+  }
+  let e = {
+    'input': {
+      type: 'input',
+      fn: function(){
+        bind.content = this.value
+      }
+    }
+  }
+  new Latte({
+    el: '#bind', 
+    data: bind,
+    eventList: e
+  })
+  
+  let nest = {
+    title: 'heihei',
+    todos: {
+      title: 'hehe',
+      tag:{
+        members: 
+          [
+            {
+              name:'QxQ' 
+            },
+            {
+              name:'QAQ' 
+            },
+            {
+              name: 'QSQ'
+            }
+          ]   
+      }
+    }
+  }
+  new Latte({
+    el: '#nest', 
+    data: nest,
+  })
+  
+  let arr = {
+    todos: {
+      words: {
+        arr: ['It\'s been a long day', 'with out you', 'my friend']
+      }
+    }
+  }
+  new Latte({
+    el: '#arr', 
+    data: arr,
+  })
+  arr.todos.words.arr.push('hello')
+  
+</script>
+</body>
+</html>

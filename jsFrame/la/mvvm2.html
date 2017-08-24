@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>data binding test</title>
+</head>
+<body>
+ 
+    <div id="binding">
+        <p>{{name}}</p>
+        {{sex}}
+        <br>
+        {{haha}}
+        <button upon-click="fun">{{buttonName}}</button>
+    </div>
+ 
+    <script src="mvvm.js"></script>
+    <script type="text/javascript">
+ 
+ 
+ 
+        var db = new dataBinding({
+            id: 'binding',
+ 
+            data: {
+                name: 'test',
+                sex: 'you',
+                haha: '2333',
+                buttonName: 'ahha'
+            },
+ 
+            ready: function() {
+ 
+                console.log('dom ready');
+ 
+                console.log('change name');
+ 
+                this.name = "my data binding";
+ 
+            },
+ 
+            methods: {
+                fun: function() {
+                    console.log('test');
+                    console.log(this);
+                    this.name = "yes, this is mvvm";
+                    this.sex = "we do it";
+                    this.buttonName = 'hahahaah';
+                },
+ 
+                fun2: function() {
+                    console.log('dbclick');
+                }
+            }
+        });
+ 
+    </script>
+ 
+</body>
+</html>
