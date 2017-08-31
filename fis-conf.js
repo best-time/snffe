@@ -82,7 +82,7 @@ fis.match('*', {
   
   fis.match('*.{css, less, scss}', {
     // packTo 即能完成简单的合并操作。
-    packTo: '/static/aio.css'
+    // packTo: '/static/aio.css'
   });
   
   fis.match('*.{css, less, scss, js}', {
