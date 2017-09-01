@@ -15,7 +15,7 @@
             var variable = this.getVariable();
             this.renderStart(variable);
  
-            this.analyseMethods();
+            this.analyseMethods(); // 添加事件
  
             return this;
         }
@@ -24,6 +24,7 @@
             this.digestVariable(variable);
         };
  
+        // 获取{{}} 变量 并去除 '{{' '}}' 符号
         dataBinding.prototype.getVariable = function() {
             this.dom.innerHTML = this.dom._context.innerHTML;
             var re = /\{\{.*\}\}/g;
@@ -103,6 +104,7 @@
  
         };
  
+        // watch 属性名
         dataBinding.prototype.watch = function(key) {
  
             var self = this;
@@ -205,11 +207,11 @@
             return flag;
         };
  
-        dataBinding.prototype.getObjectLength = function(obj) {
-            var count = 0;
-            for (var key in obj) {
-                count ++;
-            }
+        // dataBinding.prototype.getObjectLength = function(obj) {
+        //     var count = 0;
+        //     for (var key in obj) {
+        //         count ++;
+        //     }
  
-            return count;
-        };
+        //     return count;
+        // };
