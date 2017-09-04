@@ -28,5 +28,62 @@
     // document.getElementById('content').children   [span]
     // document.getElementById('content').childNodes  [text, span, text]   // 包含空文本节点
 </script>
+
+<script type="text/javascript">  
+    function SelectSomeText () {  
+        var input = document.getElementById("Textbox");  
+            input.selectionStart = 4;  
+            input.selectionEnd = 13;      
+            input.setSelectionRange(4, 13);            
+    }         
+    
+</script>  
+
+
+<p><input type="text" id="Textbox" size="40" value="The text selection appears here"/></p>  
+<p><button onclick="SelectSomeText()">See selection</button></p>      
+
+
+
+<div id="box">
+    “用泡打粉发酵面食，蒸制的时候显得蓬松可口，看起来也好看。”昨日，闵行区报春路上一个菜场附近的馒头包子铺里，一名来自四川的摊贩说，他和面的时候会加些泡打粉，听说将被禁止使用，显得很吃惊：“以前家家户户做馒头包子不都是添加这个嘛！吃了那么多年的东西难道还会有问题？”不过，这位摊贩也承认，添加泡打粉需适量，一旦加多了和出来的面味道就不好，“吃起来有股化肥味。”随后，记者在淘宝上输入“泡打粉”，发现一种名为“香甜泡打粉”的配料成分中，也有47%为钾明矾(硫酸铝钾)。
+</div>
+
+<script>
+
+    var oBox = getId("box");
+
+    function getId(id){
+        return document.getElementById(id);
+    }
+
+    function getRangeObject(selectionObject) {
+        if (selectionObject.getRangeAt){
+            return selectionObject.getRangeAt(0);
+        }
+        else { // 较老版本Safari!
+            var range = document.createRange();
+            range.setStart(selectionObject.anchorNode,selectionObject.anchorOffset);
+            range.setEnd(selectionObject.focusNode,selectionObject.focusOffset);
+            return range;
+        }
+    }
+
+    oBox.onmouseup = function(evt){
+        var userSelection;
+        if (window.getSelection) {                  // 现代浏览器
+            userSelection = window.getSelection();
+        }
+        else if (document.selection) {              // IE浏览器、Chrome 考虑到Opera，应该放在后面
+            userSelection = document.selection.createRange();
+        }
+
+        var rangeObject = getRangeObject(userSelection);
+
+        alert(rangeObject);
+    }
+
+</script>
+
 </body>
 </html>
