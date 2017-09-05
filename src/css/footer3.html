@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+        <title>footer 固定页面底部</title>
+        <style>
+            /* 使用calc()设置内容高度  (安卓 4.4 ) */
+            html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+              }
+              .content {
+                min-height: calc(100vh - 50px);
+              }
+              .footer {
+                height: 50px;
+              }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <!-- content -->
+          </div>
+          <div class="footer">footer</div>
+
+    </body>
+</html>

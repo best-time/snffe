@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+        <title>footer 固定页面底部</title>
+        <style>
+            html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            }
+            /* 将内容部分的margin-bottom设为负数 */
+            .wrapper {
+            min-height: 100%;  
+            margin-bottom: -50px; /* 等于footer的高度 */
+            background-color: #ccc;
+            }
+            .footer, .push {
+            height: 50px;
+            }
+            .footer {
+                background-color: #eee;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            1
+            <br>
+            1
+            <br>
+            1
+            <br>
+            1
+            <br>
+            <!-- content -->
+            <div class="push"></div>
+        </div>
+        <div class="footer">footer</div>
+    </body>
+</html>

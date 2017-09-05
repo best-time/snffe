@@ -17,6 +17,8 @@
       color: #999;
   }
   </style>
+
+<script src="la.js"></script>
 </head>
 <body>
 
@@ -54,18 +56,47 @@
 
 
 
-
-
 <div id="nest">
   <h1 lait-model="title"></h1>
+
   <h2 lait-model="todos:title"></h2>
+
   <ul lait-list="todos:tag:members">
     <li lait-list-item="todos:tag:members">
       <span lait-model="todos:tag:members:name"></span>
     </li>
   </ul>
-</div>
 
+</div>
+<script>
+    var nest = {
+          title: 'title-heihei',
+
+          todos: {
+            title: 'subtitle-hehe',
+            tag:{
+              members: [
+                  {
+                    name:'QxQ11' 
+                  },
+                  {
+                    name:'QAQ22' 
+                  }
+                  // ,
+                  // {
+                  //   name: 'QSQ33'
+                  // }
+                ]   
+            }
+          }
+
+        }
+        
+  new Latte({
+    el: '#nest', 
+    data: nest,
+  })
+</script>
 
 <div id="arr">
   <div>
@@ -87,7 +118,6 @@
   </div>
 </div>
 
-<script src="la.js"></script>
 <script>
 
   // var data = {
@@ -176,29 +206,7 @@
   
 
 
-  var nest = {
-          title: 'title-heihei',
-          todos: {
-            title: 'subtitle-hehe',
-            tag:{
-              members: [
-                  {
-                    name:'QxQ11' 
-                  },
-                  {
-                    name:'QAQ22' 
-                  },
-                  {
-                    name: 'QSQ33'
-                  }
-                ]   
-            }
-          }
-        }
-  new Latte({
-    el: '#nest', 
-    data: nest,
-  })
+
   
 //   let arr = {
 //     todos: {

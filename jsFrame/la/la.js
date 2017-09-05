@@ -94,10 +94,10 @@ function observePath(obj, paths, callback) {
 }
 
 function observeArray(arr, callback) {
-  var oam = ["push", "pop", "shift", "unshift", "splice", "sort", "reverse"];
   var arrayProto = Array.prototype;
   var hackProto = Object.create(Array.prototype);
 
+  var oam = ["push", "pop", "shift", "unshift", "splice", "sort", "reverse"];
   oam.forEach(function(method) {
     Object.defineProperty(hackProto, method, {
       writable: true,
@@ -134,10 +134,12 @@ function Latte(latte) {
   this.$register = new Register();
 
   this.$el = document.querySelector(latte.el);
-  this.$eventList = latte.eventList;
+
+  this.$eventList = latte.eventList;  // parseEvent 使用
 
   this.$frag = this.node2Fragment(this.$el); // 文档碎片
   this.scan(this.$frag); // 解析 event / class / model
+
   this.$el.appendChild(this.$frag);
 
   this.$register.build(); // 添加 observe
@@ -150,11 +152,15 @@ lp.scan = function(node) {
 
   // 是根元素 或 不包含 lait-list 属性
   if (node === _this.$frag || !node.getAttribute("lait-list")) {
+
     var childs = [];
     if (node.children) {
-      childs = [...node.children];
+      // childs = [...node.children];
+      childs = [].slice.call(node.children);
     } else {
-      [...node.childNodes].forEach(function(child) {
+      var tmp = [].slice.call(node.childNodes)
+      // [...node.childNodes].forEach(function(child) {
+        tmp.forEach(function(child) {
         if (child.nodeType === 1) {
           childs.push(child);
         }
@@ -162,7 +168,7 @@ lp.scan = function(node) {
     }
 
     childs.forEach(function(child) {
-      if (node.path) {
+      if (node.path) { // 父元素path 赋值给 子元素
         child.path = node.path;
       }
       _this.parseEvent(child);
@@ -173,8 +179,11 @@ lp.scan = function(node) {
         _this.scan(child);
       }
     });
+
   } else {
+
     _this.parseList(node);
+
   }
 };
 
@@ -206,6 +215,7 @@ lp.parseData = function(str, node) {
       
       nowPath = node.path[arrayCounter];
       arrayCounter += 1;
+
       if (nowPath === key) {
         data = data[key];
       } else {
@@ -219,27 +229,32 @@ lp.parseData = function(str, node) {
     }
 
     path.push(key);
+
   });
 
   if (node.path && node.path.length > path.length) {
     var lastPath = node.path[node.path.length - 1];
-    //if (typeof lastPath === 'number') {
+    //if (typeof lastPath === 'number') {//}
     data = data[lastPath];
     path.push(lastPath);
-    //}
+    
   }
-  //if (!node.path || node.path !== path) {
+  //if (!node.path || node.path !== path) {//}
   node.path = path;
-  //}
+  
   return { path, data };
 };
 
 lp.parseEvent = function(node) {
+
   if (node.getAttribute("lait-event")) {
+
     var eventName = node.getAttribute("lait-event");
     var type = this.$eventList[eventName].type;
     var fn = this.$eventList[eventName].fn.bind(node);
+
     if (type === "input") {
+
       var cmp = false;
       node.addEventListener("compositionstart", function() {
         cmp = true;
@@ -256,14 +271,18 @@ lp.parseEvent = function(node) {
           this.setSelectionRange(start, end);
         }
       });
+
     } else {
       node.addEventListener(type, fn);
     }
+
   }
 };
 
 lp.parseClass = function(node) {
+
   if (node.getAttribute("lait-class")) {
+
     var className = node.getAttribute("lait-class");
     var dataObj = this.parseData(className, node);
 
@@ -275,11 +294,14 @@ lp.parseClass = function(node) {
       node.classList.remove(old);
       node.classList.add(now);
     });
+
   }
 };
 
 lp.parseModel = function(node) {
+
   if (node.getAttribute("lait-model")) {
+
     var modelName = node.getAttribute("lait-model");
     var dataObj = this.parseData(modelName, node);
 
@@ -296,6 +318,7 @@ lp.parseModel = function(node) {
         node.innerText = now;
       }
     });
+    
   }
 };
 
@@ -353,11 +376,14 @@ lp.parseList = function(node) {
 };
 
 lp.parseListItem = function(node) {
-  var me = this;
+  var _this = this;
   var target;
 
-  (function getItem(nodeToScan) {
-    var tmp = [...nodeToScan.children];
+  getItem(node);
+  function getItem(nodeToScan) {
+    // var tmp = [...nodeToScan.children];
+
+    var tmp = [].slice.call(nodeToScan.children)
     tmp.forEach(function(thisNode) {
       if (nodeToScan.path) {
         thisNode.path = nodeToScan.path.slice();
@@ -368,13 +394,13 @@ lp.parseListItem = function(node) {
           parentEl: nodeToScan // 父元素
         };
       } else {
-        me.parseEvent(thisNode);
-        me.parseClass(thisNode);
-        me.parseModel(thisNode);
+        _this.parseEvent(thisNode);
+        _this.parseClass(thisNode);
+        _this.parseModel(thisNode);
         getItem(thisNode);
       }
     });
-  })(node);
+  }
 
   return target;
 };

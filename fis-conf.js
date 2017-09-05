@@ -79,6 +79,13 @@ fis.match('*', {
   
     */
   });
+
+  fis.match('*.css', {
+    postprocessor: fis.plugin('postcss')
+  });
+  fis.match(/.*\/[a-zA-Z0-9]+\.scss$/, {
+    postprocessor: fis.plugin('postcss')
+  });
   
   fis.match('*.{css, less, scss}', {
     // packTo 即能完成简单的合并操作。
