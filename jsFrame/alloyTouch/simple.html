@@ -338,6 +338,26 @@
 // window.baidu = function(res) {
 //     console.info(res)
 // }
+
+
+</script>
+<script src="../js/es6-promise.min.js"></script>
+<script src="../js/fetch.js"></script>
+<script>
+    fetch('../data/data1.json', {
+        credentials: 'include', // 带cookie
+        headers: {
+            'Cache-Control': 'no-cache' // 无缓存
+        }
+    })
+  .then(function(response) {
+    //   console.log(response)
+    return response.json()
+  }).then(function(json) {
+    console.log('parsed json', json)
+  }).catch(function(ex) {
+    console.log('parsing failed', ex)
+  })
 </script>
     </body>
 
