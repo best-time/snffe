@@ -1,0 +1,5 @@
+ Listening on http://127.0.0.1:8080
+127.0.0.1 - GET / HTTP/1.1 200 1352 - 491.644 ms
+127.0.0.1 - GET /favicon.ico HTTP/1.1 404 24 - 2.894 ms
+127.0.0.1 - GET /160803.html HTTP/1.1 200 415 - 18.461 ms
+ Recive quit signal in worker 4316.

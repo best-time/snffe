@@ -243,7 +243,7 @@
           
         }
         //if (!node.path || node.path !== path) {//}
-        node.path = path;
+        node.path = path;   // 给当前元素添加 path 属性
         
         return { path, data };
       };
