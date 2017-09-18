@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PolarTest</title>
+    <script src="./polar.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <form><label>name: </label><input p-model="name" /></form>
+    <div>name: {{name}}</div>
+    <p>age:{{age}}</p>
+    <!-- <p>note:{{note}}</p> -->
+    <button p-click="test(2)">button1</button>
+</div>
+
+<script>
+    var myPolar = new Polar({
+        el:"#app",
+        data: {
+            name: "niexiaotao",
+            age:16,
+            note:"Student of Zhejiang University"
+        },
+        methods:{
+            test:function(e,addNumber){
+                console.log("e:",e);
+                this.data.age+=Number(addNumber);
+            }
+        }
+    });
+</script>
+
+<div id="box">
+    <p>p标签</p>
+</div>
+
+<script>
+    /*
+    nodeType:
+
+    ELEMENT_NODE: 1, // 元素节点  
+    ATTRIBUTE_NODE: 2, // 属性节点  
+    TEXT_NODE: 3, // 文本节点  
+
+    COMMENT_NODE: 8, // 注释节点  
+    DOCUMENT_NODE: 9, // 文档  
+    DOCUMENT_FRAGMENT_NODE: 11, // 文档碎片  
+
+
+    !!!
+    不过需要注意， Node.childNodes 、 document.getElementsByName 返回的 NodeList 的结果是实时的（此时跟HTMLCollection比较类似），
+    而 document.querySelectorAll 返回的结果是固定的，这一点比较特殊。
+
+    节点创建API主要包括: 
+    createElement 、 createTextNode 、 cloneNode 和 createDocumentFragment
+
+    parent.appendChild(child);
+    parentNode.insertBefore(newNode, refNode);  
+    parent.removeChild(node);  
+    parent.replaceChild(newChild, oldChild);  
+
+    node.children ：返回一个实时的 HTMLCollection ，子节点都是Element，IE9以下浏览器不支持；
+    node.childNodes ：返回一个实时的 NodeList ，表示元素的子节点列表，注意子节点可能包含文本节点、注释节点等；
+
+    nodeValue就是用来得到“文本元素的值”的，即只适用于“文本节点”；
+
+    */
+
+
+    var box = document.getElementById('box')
+    var txt = document.createTextNode('txt')
+    console.log(box.childNodes)
+    // console.log(txt.nodeType)
+    box.append(txt)
+
+</script>
+
+<div id="parent">
+    我是父元素的文本
+    <br/>
+    <span>
+        我是子元素
+    </span>
+</div>
+<button id="btnCopy">复制</button>
+
+    <script>
+    var parent = document.getElementById("parent");
+document.getElementById("btnCopy").onclick = function(){
+    var parent2 = parent.cloneNode(false);
+    parent2.id = "parent2";
+    document.body.appendChild(parent2);
+}
+</script>
+</body>
+</html>
